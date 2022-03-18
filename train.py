@@ -10,6 +10,9 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn import model_selection
+from sklearn.neighbors import KNeighborsClassifier
+import joblib
+import pickle
 
 heart_df = pd.read_csv('data/heart.csv')
 
@@ -63,7 +66,7 @@ classifiers = {
     "Random Forest": RandomForestClassifier(n_estimators=100),
     "Skl GBM": GradientBoostingClassifier(n_estimators=100),
     "Logistic Regression": LogisticRegression(),
-    "SVM": SVC(kernel='linear')
+    "SVM": SVC(kernel='rbf')
 }
 
 for model_name, model in classifiers.items():
@@ -82,4 +85,8 @@ for model_name, model in classifiers.items():
 results_ord = results.sort_values(by=['Accuracy'], ascending=False, ignore_index=True)
 results_ord.index += 1
 results_ord.style.bar(subset=['Accuracy', 'Bal Acc.'], vmin=0, vmax=100, color='#5fba7d')
-print(results_ord.iloc[0, :])
+print(results_ord)
+
+model = classifiers[f'{results_ord.iloc[0, 0]}']
+joblib.dump(model, 'model.pkl')
+
