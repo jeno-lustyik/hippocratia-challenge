@@ -9,15 +9,13 @@ from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import GradientBoostingClassifier
-from sklearn import model_selection
-from sklearn.neighbors import KNeighborsClassifier
 import joblib
-import pickle
 
 heart_df = pd.read_csv('data/heart.csv')
 
 x = heart_df.iloc[:, :-1]
 y = heart_df.iloc[:, -1]
+
 
 def data_enhancement(data):
     gen_data = data.copy()
@@ -31,26 +29,27 @@ def data_enhancement(data):
 
         for i in gen_data[gen_data['cp'] == cp].index:
             if np.random.randint(2) == 1:
-                gen_data['trtbps'].values[i] += trtbps_std/10
+                gen_data['trtbps'].values[i] += trtbps_std / 10
             else:
-                gen_data['trtbps'].values[i] -= trtbps_std/10
+                gen_data['trtbps'].values[i] -= trtbps_std / 10
             if np.random.randint(2) == 1:
-                gen_data['age'].values[i] += age_std/10
+                gen_data['age'].values[i] += age_std / 10
             else:
-                gen_data['age'].values[i] -= age_std/10
+                gen_data['age'].values[i] -= age_std / 10
             if np.random.randint(2) == 1:
-                gen_data['chol'].values[i] += chol_std/10
+                gen_data['chol'].values[i] += chol_std / 10
             else:
-                gen_data['chol'].values[i] -= chol_std/10
+                gen_data['chol'].values[i] -= chol_std / 10
             if np.random.randint(2) == 1:
-                gen_data['thalachh'].values[i] += thalachh_std/10
+                gen_data['thalachh'].values[i] += thalachh_std / 10
             else:
-                gen_data['thalachh'].values[i] -= thalachh_std/10
+                gen_data['thalachh'].values[i] -= thalachh_std / 10
     return gen_data
+
 
 gen = data_enhancement(heart_df)
 
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0, stratify= y)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0, stratify=y)
 
 extra_sample = gen.sample(gen.shape[0] // 3)
 x_train = pd.concat([x_train, extra_sample.drop(['output'], axis=1)])
@@ -89,4 +88,3 @@ print(results_ord)
 
 model = classifiers[f'{results_ord.iloc[0, 0]}']
 joblib.dump(model, 'model.pkl')
-

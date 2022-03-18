@@ -16,11 +16,7 @@ while True:
     slp = int(input("The slope of your peak exercise segment: [0, 1, 2] \n"))
     caa = int(input("The number of your major vessels: [0-3] \n"))
     thal = int(input("Thal: [1, 2, 3] \n"))
-    '''
-    Preprocess
-    predict
 
-    '''
     x_test = [[age, sex, cp, trtbps, chol, fbs, restecg, thalach, exang, oldpeak, slp, caa, thal]]
     prediction = model_joblib.predict(x_test)
     if prediction == 0:
