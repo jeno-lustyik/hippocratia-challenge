@@ -4,7 +4,7 @@ model_joblib = joblib.load('new_model.pkl')
 
 while True:
     age_grps = int(input("Which group? [0-3: Young(25-49), Adult(50-56), Old(57-69), Senior(70+) ] \n"))
-    sex = int(input("What is your gender? \n"))
+    sex = int(input("What is your gender(? \n"))
     cp = int(input("Which type of chest pain do you have? [0, 1, 2, 3] \n"))
     trtbps = int(input("What is your resting blood pressure? \n"))
     chol = int(input("What is your cholesterol level? \n"))
